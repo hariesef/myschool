@@ -1,0 +1,39 @@
+syntax = "proto3";
+
+package myschool;
+option go_package = "/pkg/controller/rpc/student";
+
+// provides endpoints related with Student information
+service Student {
+    rpc Create(StudentParam) returns (StudentModel);
+    rpc Read(StudentID) returns (StudentModel);
+    rpc Delete(StudentID) returns (StudentModel);
+    rpc FindByName(StudentName) returns (StudentModels);
+}
+
+
+message StudentID {
+    int32 id = 1;
+}
+
+message StudentName {
+    string name = 1;
+}
+
+
+message StudentParam {
+    string name = 1;
+    string gender = 2;
+}
+
+message StudentModel {
+    int32 id = 1;
+    int32 created_at = 2;
+    int32 updated_at = 3;
+    string name = 4;
+    string gender = 5;
+}
+
+message StudentModels {
+    repeated StudentModel students = 1;
+}

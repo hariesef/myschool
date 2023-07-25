@@ -1,0 +1,35 @@
+syntax = "proto3";
+
+package myschool;
+option go_package = "/pkg/controller/rpc/account";
+
+// provides endpoints related with Student information
+service Account {
+    rpc Create(NewAccountParam) returns(Empty);
+    rpc Login(LoginInfo) returns (TokenInfo);
+    rpc Logout(Token) returns(Empty);
+}
+
+message Empty{
+
+}
+
+message NewAccountParam {
+    string email = 1;
+    string password = 2;
+}
+
+message LoginInfo {
+    string email = 1;
+    string password = 2;
+}
+
+message TokenInfo {
+    string token = 1;
+    int32 expiry = 2; //in seconds, unix timestamp
+}
+
+message Token {
+    string token = 1;
+}
+

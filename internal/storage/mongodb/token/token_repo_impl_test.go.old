@@ -1,0 +1,97 @@
+package token_test
+
+import (
+	"context"
+	"myschool/internal/storage/mongodb/token"
+	"myschool/pkg/model"
+	"testing"
+
+	"github.com/golang/mock/gomock"
+	. "github.com/onsi/ginkgo/v2"
+	. "github.com/onsi/gomega"
+	"go.mongodb.org/mongo-driver/bson/primitive"
+	"go.mongodb.org/mongo-driver/mongo"
+
+	"github.com/sv-tools/mongoifc"
+	gomockMocks "github.com/sv-tools/mongoifc/mocks/gomock"
+)
+
+var (
+	tokenRepoImpl model.AuthTokenRepo
+	ctrl          *gomock.Controller
+	db            *gomockMocks.MockDatabase
+)
+
+func TestStudent(t *testing.T) {
+	RegisterFailHandler(Fail)
+
+	BeforeSuite(func() {
+		ctrl = gomock.NewController(t)
+	})
+
+	AfterSuite(func() {
+		ctrl.Finish()
+	})
+
+	RunSpecs(t, "Token Suite")
+}
+
+var _ = Describe("Testing TokenRepo Implementation with mongoifc mocks.", func() {
+
+	BeforeEach(func() {
+
+		db = gomockMocks.NewMockDatabase(ctrl)
+		mongoifcDB := mongoifc.Database(db)
+		tokenRepoImpl = token.NewRepo(&mongoifcDB)
+	})
+
+	AfterEach(func() {
+
+	})
+
+	//serial mode due to I/O testing with DB
+	Describe("Testing all token repo functions using mongoifc mocks", func() {
+		Context("Token Repo", func() {
+
+			It("tests creating first token", func() {
+
+				ctx := context.Background()
+				col := gomockMocks.NewMockCollection(ctrl)
+				insertedID := primitive.NewObjectID()
+				col.EXPECT().InsertOne(ctx, gomock.Any()).Return(
+					&mongo.InsertOneResult{
+						InsertedID: insertedID,
+					},
+					nil,
+				)
+				db.EXPECT().Collection(token.TokenCollectionName).Return(col).AnyTimes()
+
+				model, err := tokenRepoImpl.Create(context.TODO(), model.TokenCreationParam{
+					Token:  "123",
+					UserID: "idharies",
+					Email:  "haries@efrika.net",
+					Expiry: 10002000,
+				})
+				Expect(err).To((BeNil()))
+				Expect(model.GetID()).To(Equal(insertedID.Hex()))
+			})
+
+			It("tests finding a token", func() {
+
+				ctx := context.Background()
+				col := gomockMocks.NewMockCollection(ctrl)
+
+				col.EXPECT().FindOne(ctx, gomock.Any()).Return(
+					&mongo.SingleResult{},
+				)
+				db.EXPECT().Collection(token.TokenCollectionName).Return(col).AnyTimes()
+
+				model, err := tokenRepoImpl.Find(context.TODO(), "123abc")
+				Expect(err).To((BeNil()))
+				Expect(model.GetID()).To(Equal("abcdefg"))
+			})
+
+		})
+
+	})
+})

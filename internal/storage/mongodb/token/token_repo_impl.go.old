@@ -1,0 +1,96 @@
+package token
+
+import (
+	"context"
+	"fmt"
+	"myschool/pkg/model"
+
+	"github.com/sv-tools/mongoifc"
+	"go.mongodb.org/mongo-driver/bson"
+	"go.mongodb.org/mongo-driver/bson/primitive"
+)
+
+const TokenCollectionName string = "token"
+
+// implmentation of AuthTokenModel
+type AuthToken struct {
+	ID     string `json:"id,omitempty" bson:"_id,omitempty"`
+	Token  string `json:"token,omitempty" bson:"token,omitempty"`
+	UserID string `json:"userId,omitempty" bson:"userId,omitempty"`
+	Email  string `json:"email,omitempty" bson:"email,omitempty"`
+	Expiry int    `json:"expiry,omitempty" bson:"expiry,omitempty"`
+}
+
+// Safe checker to know if this file already implements the model interface correctly or not
+var _ (model.AuthTokenModel) = (*AuthToken)(nil)
+
+func (s *AuthToken) GetID() string {
+	return s.ID
+}
+
+func (s *AuthToken) GetToken() string {
+	return s.Token
+}
+
+func (s *AuthToken) GetUserID() string {
+	return s.UserID
+}
+
+func (s *AuthToken) GetEmail() string {
+	return s.Email
+}
+
+func (s *AuthToken) GetExpiry() int {
+	return s.Expiry
+}
+
+// unexportable
+type repoPrivate struct {
+	db mongoifc.Database
+}
+
+// Safe checker to know if this file already implements the interface correctly or not
+var _ (model.AuthTokenRepo) = (*repoPrivate)(nil)
+
+func NewRepo(db *mongoifc.Database) model.AuthTokenRepo {
+	return &repoPrivate{db: *db}
+}
+
+func (repo *repoPrivate) Create(ctx context.Context, args model.TokenCreationParam) (model.AuthTokenModel, error) {
+
+	newDocument := &AuthToken{
+		Token:  args.Token,
+		UserID: args.UserID,
+		Email:  args.Email,
+		Expiry: args.Expiry,
+	}
+	res, err := repo.db.Collection(TokenCollectionName).InsertOne(ctx, newDocument)
+	if err != nil {
+		return nil, err
+	}
+	newDocument.ID = res.InsertedID.(primitive.ObjectID).Hex()
+	return newDocument, nil
+}
+
+func (repo *repoPrivate) Find(ctx context.Context, token string) (model.AuthTokenModel, error) {
+
+	result := repo.db.Collection(TokenCollectionName).FindOne(context.Background(), bson.M{"token": token})
+	var doc AuthToken
+	result.Decode(&doc)
+	return &doc, result.Err()
+}
+
+func (repo *repoPrivate) Delete(ctx context.Context, token string) error {
+
+	filter := bson.M{"token": token}
+	result, err := repo.db.Collection(TokenCollectionName).DeleteOne(context.Background(), filter)
+	if err != nil {
+		return err
+	}
+
+	if result.DeletedCount < 1 {
+		return fmt.Errorf("the token %s is not found", token)
+	}
+
+	return nil
+}
