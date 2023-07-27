@@ -69,7 +69,7 @@ var _ = Describe("Testing TokenRepo Implementation with mongoifc mocks.", func()
 				model, err := tokenRepoImpl.Create(context.TODO(), model.TokenCreationParam{
 					Token:  "123",
 					UserID: "idharies",
-					Email:  "haries@efrika.net",
+					Email:  "haries@banget.net",
 					Expiry: 10002000,
 				})
 				Expect(err).To((BeNil()))
@@ -81,6 +81,7 @@ var _ = Describe("Testing TokenRepo Implementation with mongoifc mocks.", func()
 				ctx := context.Background()
 				col := gomockMocks.NewMockCollection(ctrl)
 
+				//BLOCKED. I am not able to find the correct way to construct SingleResult{}. Didnt find single example on google.
 				col.EXPECT().FindOne(ctx, gomock.Any()).Return(
 					&mongo.SingleResult{},
 				)

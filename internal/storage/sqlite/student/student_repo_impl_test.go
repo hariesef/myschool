@@ -5,7 +5,6 @@ import (
 	"myschool/pkg/model"
 	"testing"
 
-	"myschool/internal/mocks"
 	sqLiteStudent "myschool/internal/storage/sqlite/student"
 
 	"github.com/golang/mock/gomock"
@@ -150,26 +149,6 @@ var _ = Describe("Student Repo Implementation", func() {
 
 				_, err := studentRepoImpl.Delete(context.TODO(), 2)
 				Expect(err.Error()).To(Equal("user not found"))
-			})
-
-		})
-	}) //end of describe
-
-	Describe("Testing student repo functions using Mock", func() {
-		Context("User Creation", func() {
-			It("tests creating a user", func() {
-
-				repoMock := mocks.NewMockStudentRepo(ctrl)
-				//two ways to return, either below:
-				repoMock.EXPECT().Create(gomock.Any(), gomock.Any()).Return(&sqLiteStudent.Student{Name: "Haries", Gender: "M"}, nil)
-				//or below:
-				// repoMock.EXPECT().Create(gomock.Any(), gomock.Any()).DoAndReturn(
-				// func(ctx context.Context, args model.StudentCreationParam) (model.StudentModel, error) {
-				// 	studentObject := sqLiteStudent.Student{Name: "Haries", Gender: "M"}
-				// 	return &studentObject, nil
-				// })
-
-				repoMock.Create(context.TODO(), model.StudentCreationParam{})
 			})
 
 		})

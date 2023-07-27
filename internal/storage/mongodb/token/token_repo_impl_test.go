@@ -27,7 +27,7 @@ func TestToken(t *testing.T) {
 		model, err := tokenRepoImpl.Create(context.TODO(), model.TokenCreationParam{
 			Token:  "123",
 			UserID: "idharies",
-			Email:  "haries@efrika.net",
+			Email:  "haries@banget.net",
 			Expiry: 10002000,
 		})
 		assert.Nil(t, err)
@@ -45,7 +45,7 @@ func TestToken(t *testing.T) {
 		_, err := tokenRepoImpl.Create(context.TODO(), model.TokenCreationParam{
 			Token:  "123",
 			UserID: "idharies",
-			Email:  "haries@efrika.net",
+			Email:  "haries@banget.net",
 			Expiry: 10002000,
 		})
 		assert.NotNil(t, err)
@@ -59,7 +59,7 @@ func TestToken(t *testing.T) {
 				{Key: "_id", Value: "abcdefg"},
 				{Key: "token", Value: "12345"},
 				{Key: "userId", Value: "idharies"},
-				{Key: "email", Value: "haries@efrika.net"},
+				{Key: "email", Value: "haries@banget.net"},
 				{Key: "expiry", Value: 10002000},
 			}))
 
@@ -67,7 +67,7 @@ func TestToken(t *testing.T) {
 		assert.Nil(t, err)
 		assert.Equal(t, model.GetID(), "abcdefg")
 		assert.Equal(t, model.GetToken(), "12345")
-		assert.Equal(t, model.GetEmail(), "haries@efrika.net")
+		assert.Equal(t, model.GetEmail(), "haries@banget.net")
 		assert.Equal(t, model.GetUserID(), "idharies")
 		assert.Equal(t, model.GetExpiry(), 10002000)
 	})
@@ -100,7 +100,7 @@ func TestToken(t *testing.T) {
 				{Key: "ok", Value: 1}, {Key: "acknowledged", Value: true}, {Key: "n", Value: 0}})
 		err := tokenRepoImpl.Delete(context.TODO(), "12345")
 		assert.NotNil(t, err)
-		assert.Equal(t, err.Error(), "the token 12345 is not found")
+		assert.Equal(t, err.Error(), "the token is not found")
 	})
 
 	mt.Run("test delete a token but having other error", func(mt *mtest.T) {

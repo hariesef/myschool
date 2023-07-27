@@ -84,14 +84,14 @@ var _ = Describe("Testing Account Service Implementation with real local mongoDB
 
 			It("tests creating first user", func() {
 
-				err := accountService.Create(context.TODO(), "haries@efrika.net", "plainpassword")
+				err := accountService.Create(context.TODO(), "haries@banget.net", "plainpassword")
 				Expect(err).To((BeNil()))
 			})
 
 			token := ""
 			It("tests logging in first user", func() {
 
-				tokenInfo, err := accountService.Login(context.TODO(), "haries@efrika.net", "plainpassword")
+				tokenInfo, err := accountService.Login(context.TODO(), "haries@banget.net", "plainpassword")
 				Expect(err).To((BeNil()))
 				Expect(tokenInfo.Expiry).Should(BeNumerically(">", 1600000000))
 				token = tokenInfo.Token

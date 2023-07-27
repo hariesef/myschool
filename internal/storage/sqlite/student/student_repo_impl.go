@@ -50,11 +50,13 @@ type repoPrivate struct {
 // Safe checker to know if this file already implements the interface correctly or not
 var _ (model.StudentRepo) = (*repoPrivate)(nil)
 
+// public constructor, requires actual database object
 func NewRepo(db *gorm.DB) model.StudentRepo {
 	return &repoPrivate{db: db}
 }
 
 func (repo *repoPrivate) Create(ctx context.Context, args model.StudentCreationParam) (model.StudentModel, error) {
+
 	studentObject := Student{Name: args.Name, Gender: args.Gender}
 
 	// fmt.Println(repo.db.Migrator().CreateTable(&Student{}))

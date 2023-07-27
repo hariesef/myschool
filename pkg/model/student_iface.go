@@ -6,20 +6,23 @@ import (
 	"context"
 )
 
-// Student model
+// We are using this model to demonstrate SQL implementation of a table which contains basically only Name and Gender
+// Uses: SQLite, gorm, sqlmock
+type StudentModel interface {
+	GetUID() uint      //gorm internal feature
+	GetCreatedAt() int //gorm internal feature
+	GetUpdatedAt() int //gorm internal feature
+	GetName() string
+	GetGender() string
+}
+
+// For create command specific
 type StudentCreationParam struct {
 	Name   string
 	Gender string
 }
 
-type StudentModel interface {
-	GetUID() uint
-	GetCreatedAt() int
-	GetUpdatedAt() int
-	GetName() string
-	GetGender() string
-}
-
+// This is interface to be used by other layer, like service or controller
 type StudentRepo interface {
 	Create(ctx context.Context, args StudentCreationParam) (StudentModel, error)
 	Read(ctx context.Context, uid uint) (StudentModel, error)

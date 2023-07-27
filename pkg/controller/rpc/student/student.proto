@@ -4,6 +4,7 @@ package myschool;
 option go_package = "/pkg/controller/rpc/student";
 
 // provides endpoints related with Student information
+// this RPC simply to provide example on how to access the repo we have implemented
 service Student {
     rpc Create(StudentParam) returns (StudentModel);
     rpc Read(StudentID) returns (StudentModel);

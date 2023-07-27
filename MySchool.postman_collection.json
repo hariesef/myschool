@@ -1,0 +1,211 @@
+{
+	"info": {
+		"_postman_id": "48720f01-127a-4c99-bb4a-62d4925f2bee",
+		"name": "MySchool",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "28588872"
+	},
+	"item": [
+		{
+			"name": "create student",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"name\": \"ryo ganteng\",\n    \"gender\": \"M\"\n}"
+				},
+				"url": {
+					"raw": "http://localhost:8080/twirp/myschool.Student/Create",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"twirp",
+						"myschool.Student",
+						"Create"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "read student",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"id\": 11\n}"
+				},
+				"url": {
+					"raw": "http://localhost:8080/twirp/myschool.Student/Read",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"twirp",
+						"myschool.Student",
+						"Read"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "find students",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"name\": \"uLI\"\n}"
+				},
+				"url": {
+					"raw": "http://localhost:8080/twirp/myschool.Student/FindByName",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"twirp",
+						"myschool.Student",
+						"FindByName"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "create account",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "Token",
+						"value": "mysecrettoken",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"email\": \"ryo@banget.net\",\n    \"password\": \"rahasia\"\n}"
+				},
+				"url": {
+					"raw": "http://localhost:8080/twirp/myschool.Account/Create",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"twirp",
+						"myschool.Account",
+						"Create"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "login an account",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "Token",
+						"value": "mysecrettoken",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"email\": \"ryo@banget.net\",\n    \"password\": \"rahasia\"\n}"
+				},
+				"url": {
+					"raw": "http://localhost:8080/twirp/myschool.Account/Login",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"twirp",
+						"myschool.Account",
+						"Login"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "logging out an account",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "Token",
+						"value": "mysecrettoken",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"token\": \"qvDEJnShb5CozXDsAsEikEeVK9FTlT95\"\n}"
+				},
+				"url": {
+					"raw": "http://localhost:8080/twirp/myschool.Account/Logout",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"twirp",
+						"myschool.Account",
+						"Logout"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

@@ -81,7 +81,7 @@ var _ = Describe("Testing UserRepo Implementation with real local mongoDB", func
 			It("tests creating first user", func() {
 
 				user, err := userRepoImpl.Create(context.TODO(),
-					model.UserCreationParam{Email: "haries@efrika.net", EncryptedPassword: randomPassword})
+					model.UserCreationParam{Email: "haries@banget.net", EncryptedPassword: randomPassword})
 				firstUserId = user.GetID()
 				fmt.Println("first user id: ", firstUserId)
 				Expect(err).To((BeNil()))
@@ -92,13 +92,13 @@ var _ = Describe("Testing UserRepo Implementation with real local mongoDB", func
 			It("tests creating 2nd user with same email, should fail.", func() {
 
 				_, err := userRepoImpl.Create(context.TODO(),
-					model.UserCreationParam{Email: "haries@efrika.net", EncryptedPassword: "yyyyy"})
+					model.UserCreationParam{Email: "haries@banget.net", EncryptedPassword: "yyyyy"})
 				Expect(err.Error()).To(ContainSubstring("duplicate key error collection"))
 			})
 
 			It("tests reading back 1st user.", func() {
 
-				user, err := userRepoImpl.Read(context.TODO(), "haries@efrika.net")
+				user, err := userRepoImpl.Read(context.TODO(), "haries@banget.net")
 				Expect(err).To((BeNil()))
 				Expect(user.GetEncryptedPassword()).To(Equal(randomPassword))
 				Expect(user.GetID()).To(Equal(firstUserId))
@@ -113,7 +113,7 @@ var _ = Describe("Testing UserRepo Implementation with real local mongoDB", func
 
 			It("tests reading back 1st user after deactivated.", func() {
 
-				_, err := userRepoImpl.Read(context.TODO(), "haries@efrika.net")
+				_, err := userRepoImpl.Read(context.TODO(), "haries@banget.net")
 				Expect(err).To(Equal(mongo.ErrNoDocuments))
 			})
 
@@ -121,22 +121,22 @@ var _ = Describe("Testing UserRepo Implementation with real local mongoDB", func
 
 				//create another two users
 				_, err := userRepoImpl.Create(context.TODO(),
-					model.UserCreationParam{Email: "sulis@efrika.net", EncryptedPassword: "yyyy"})
+					model.UserCreationParam{Email: "sulis@banget.net", EncryptedPassword: "yyyy"})
 				Expect(err).To((BeNil()))
 				_, err = userRepoImpl.Create(context.TODO(),
-					model.UserCreationParam{Email: "ayu@efrika.net", EncryptedPassword: "xxxx"})
+					model.UserCreationParam{Email: "ayu@banget.net", EncryptedPassword: "xxxx"})
 				Expect(err).To((BeNil()))
 				_, err = userRepoImpl.Create(context.TODO(),
-					model.UserCreationParam{Email: "ryo@efrika.net", EncryptedPassword: "zzzz"})
+					model.UserCreationParam{Email: "ryo@banget.net", EncryptedPassword: "zzzz"})
 				Expect(err).To((BeNil()))
 
 				users, err := userRepoImpl.FindActive(context.TODO())
 				Expect(err).To((BeNil()))
 				Expect(len(users)).To(Equal(3))
 				Expect(users[0].IsActive()).To(Equal(true))
-				Expect(users[0].GetEmail()).To(Equal("ayu@efrika.net"))
-				Expect(users[1].GetEmail()).To(Equal("ryo@efrika.net"))
-				Expect(users[2].GetEmail()).To(Equal("sulis@efrika.net"))
+				Expect(users[0].GetEmail()).To(Equal("ayu@banget.net"))
+				Expect(users[1].GetEmail()).To(Equal("ryo@banget.net"))
+				Expect(users[2].GetEmail()).To(Equal("sulis@banget.net"))
 			})
 
 		})

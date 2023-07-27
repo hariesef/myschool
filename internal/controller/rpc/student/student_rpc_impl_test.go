@@ -5,6 +5,7 @@ import (
 	"regexp"
 	"testing"
 
+	"myschool/internal/mocks"
 	sqLiteStudent "myschool/internal/storage/sqlite/student"
 
 	"myschool/internal/repositories"
@@ -67,7 +68,7 @@ var _ = Describe("Student Repo Implementation", func() {
 
 	})
 
-	Describe("Testing RPC functions using sqlMock", func() {
+	Describe("Testing RPC functions using mock of DB: sqlMock", func() {
 		Context("User Creation", func() {
 			It("tests creating a user", func() {
 
@@ -87,6 +88,37 @@ var _ = Describe("Student Repo Implementation", func() {
 				Expect(student.GetName()).To(Equal("Mama Ishar"))
 				Expect(student.GetGender()).To(Equal("F"))
 				Expect(student.GetCreatedAt()).Should(BeNumerically(">", 1600000000))
+			})
+
+		})
+	}) //end of describe
+
+	//Different way to test. Mocking the repo instead.
+	Describe("Testing student repo functions using Mock of repo", func() {
+		Context("User Creation", func() {
+			It("tests creating a user", func() {
+
+				repoMock := mocks.NewMockStudentRepo(ctrl)
+				repo2 := &repositories.Repositories{
+					StudentRepo: repoMock,
+				}
+				server2 := &internalRPC.StudentRPCServer{Repo: repo2}
+
+				//two ways to return, either below:
+				repoMock.EXPECT().Create(gomock.Any(), gomock.Any()).Return(&sqLiteStudent.Student{
+					Name:   "Haries",
+					Gender: "M"}, nil)
+				//or below:
+				// repoMock.EXPECT().Create(gomock.Any(), gomock.Any()).DoAndReturn(
+				// func(ctx context.Context, args model.StudentCreationParam) (model.StudentModel, error) {
+				// 	studentObject := sqLiteStudent.Student{Name: "Haries", Gender: "M"}
+				// 	return &studentObject, nil
+				// })
+
+				student, err := server2.Create(context.TODO(), &pkgRPC.StudentParam{Name: "Mama Ishar", Gender: "F"})
+				Expect(err).ShouldNot(HaveOccurred())
+				Expect(student.GetName()).To(Equal("Haries"))
+				Expect(student.GetGender()).To(Equal("M"))
 			})
 
 		})
