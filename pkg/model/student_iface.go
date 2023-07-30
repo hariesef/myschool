@@ -12,6 +12,7 @@ type StudentModel interface {
 	GetUID() uint      //gorm internal feature
 	GetCreatedAt() int //gorm internal feature
 	GetUpdatedAt() int //gorm internal feature
+	GetDeletedAt() int //gorm internal feature
 	GetName() string
 	GetGender() string
 }

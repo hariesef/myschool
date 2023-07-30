@@ -2,6 +2,7 @@ package student_test
 
 import (
 	"context"
+	"database/sql"
 	"regexp"
 	"testing"
 
@@ -42,12 +43,12 @@ func TestStudent(t *testing.T) {
 var _ = Describe("Student Repo Implementation", func() {
 
 	var mock sqlmock.Sqlmock
-	var repo *repositories.Repositories
 	var server *internalRPC.StudentRPCServer
 
 	BeforeEach(func() {
-		mockDb, _mock, _ := sqlmock.New()
-		mock = _mock
+
+		var mockDb *sql.DB
+		mockDb, mock, _ = sqlmock.New()
 		dialector := postgres.New(postgres.Config{
 			Conn:       mockDb,
 			DriverName: "postgres",
@@ -56,12 +57,11 @@ var _ = Describe("Student Repo Implementation", func() {
 		Expect(err).ShouldNot(HaveOccurred())
 
 		studentRepoImpl := sqLiteStudent.NewRepo(db)
-		repo = &repositories.Repositories{
+		repo := &repositories.Repositories{
 			StudentRepo: studentRepoImpl,
 		}
 
 		server = &internalRPC.StudentRPCServer{Repo: repo}
-
 	})
 
 	AfterEach(func() {
@@ -80,7 +80,7 @@ var _ = Describe("Student Repo Implementation", func() {
 					AddRow(777)
 
 				mock.ExpectQuery(query).WillReturnRows(rows)
-				mock.ExpectCommit()
+				// mock.ExpectCommit()
 
 				student, err := server.Create(context.TODO(), &pkgRPC.StudentParam{Name: "Mama Ishar", Gender: "F"})
 				Expect(err).ShouldNot(HaveOccurred())

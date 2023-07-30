@@ -34,6 +34,10 @@ func (s *Student) GetUpdatedAt() int {
 	return s.UpdatedAt
 }
 
+func (s *Student) GetDeletedAt() int {
+	return int(s.DeletedAt)
+}
+
 func (s *Student) GetName() string {
 	return s.Name
 }
