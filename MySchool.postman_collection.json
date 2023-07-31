@@ -108,11 +108,6 @@
 						"key": "Content-Type",
 						"value": "application/json",
 						"type": "text"
-					},
-					{
-						"key": "Token",
-						"value": "mysecrettoken",
-						"type": "text"
 					}
 				],
 				"body": {
@@ -143,11 +138,6 @@
 					{
 						"key": "Content-Type",
 						"value": "application/json",
-						"type": "text"
-					},
-					{
-						"key": "Token",
-						"value": "mysecrettoken",
 						"type": "text"
 					}
 				],
@@ -189,7 +179,7 @@
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n    \"token\": \"qvDEJnShb5CozXDsAsEikEeVK9FTlT95\"\n}"
+					"raw": "{\n    \"token\": \"putyourtokenhere\"\n}"
 				},
 				"url": {
 					"raw": "http://localhost:8080/twirp/myschool.Account/Logout",
