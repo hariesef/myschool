@@ -1,0 +1,48 @@
+package example_test
+
+import (
+	. "github.com/onsi/ginkgo/v2"
+	. "github.com/onsi/gomega"
+)
+
+
+func TestStudent(t *testing.T) {
+	RegisterFailHandler(Fail)
+
+
+	BeforeSuite(func() {
+
+	})
+
+	AfterSuite(func() {
+
+	})
+
+	RunSpecs(t, "Student Suite")
+}
+
+
+var _ = Describe("Student Repo Implementation", func() {
+
+	BeforeEach(func() {
+
+	})
+
+	AfterEach(func() {
+
+	})
+
+	Describe("Test case group", func() {
+		Context("test case sub group", func() {
+			It("first test case", func() {
+
+			})
+
+			It("2nd test case", func() {
+
+			})
+
+		})
+	}) //end of describe
+
+})
