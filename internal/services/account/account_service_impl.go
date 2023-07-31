@@ -23,8 +23,6 @@ type AccountService struct {
 var _ (account.AccountServiceIface) = (*AccountService)(nil)
 
 func (acct *AccountService) Create(ctx context.Context, email string, password string) error {
-	token := ctx.Value("token")
-	log.Debugf("value of token: %s", token)
 	hashedPassword := argonFromPassword(password)
 
 	_, err := acct.Repo.UserRepo.Create(context.TODO(),
@@ -73,6 +71,10 @@ func (acct *AccountService) Login(ctx context.Context, email string, password st
 }
 
 func (acct *AccountService) Logout(ctx context.Context, token string) error {
+
+	//example for getting http header pushed by twirp
+	tokenFromHeader := ctx.Value("token")
+	log.Debugf("value of token: %s", tokenFromHeader)
 
 	return acct.Repo.AuthTokenRepo.Delete(ctx, token)
 }

@@ -57,6 +57,15 @@ func main() {
 		}
 	}(server)
 
+	defer func() {
+		if panicErr := recover(); panicErr != nil {
+			log.Debugf("panic: %s", panicErr)
+			//send to i.e. sentry
+			//sentry.CurrentHub().Recover(panicErr)
+			//sentry.Flush(time.Second * 5)
+		}
+	}()
+
 	quit := make(chan os.Signal, 1)
 	signal.Notify(quit, syscall.SIGINT, syscall.SIGTERM)
 	<-quit
