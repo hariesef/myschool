@@ -52,7 +52,8 @@ type repoPrivate struct {
 }
 
 // Safe checker to know if this file already implements the interface correctly or not
-var _ (model.StudentRepo) = (*repoPrivate)(nil)
+//var _ (model.StudentRepo) = (*repoPrivate)(nil)
+//Note: just for example. Not needed if we have constructor like below, NewRepo returning interface{}
 
 // public constructor, requires actual database object
 func NewRepo(db *gorm.DB) model.StudentRepo {
@@ -63,11 +64,7 @@ func (repo *repoPrivate) Create(ctx context.Context, args model.StudentCreationP
 
 	studentObject := Student{Name: args.Name, Gender: args.Gender}
 
-	// fmt.Println(repo.db.Migrator().CreateTable(&Student{}))
-
 	result := repo.db.Create(&studentObject)
-	// fmt.Println(result.Error)
-	// fmt.Println(result.RowsAffected)
 	return &studentObject, result.Error
 }
 
