@@ -46,8 +46,8 @@ func (acct *AccountService) Login(ctx context.Context, email string, password st
 	log.Debugf("[%s]", email)
 	log.Debugf("[%s]", user.GetEncryptedPassword())
 	log.Debugf("[%s]", argonFromPassword(password))
-	//then, compare
-	if (user.GetEmail() != email) || (user.GetEncryptedPassword() != argonFromPassword(password)) {
+	//then, compare password
+	if user.GetEncryptedPassword() != argonFromPassword(password) {
 		return &account.TokenInfo{}, errors.New("email or password does not match our record")
 	}
 

@@ -37,10 +37,10 @@ func TestStudent(t *testing.T) {
 		ctrl.Finish()
 	})
 
-	RunSpecs(t, "Student Suite")
+	RunSpecs(t, "Student RPC Suite")
 }
 
-var _ = Describe("Student Repo Implementation", func() {
+var _ = Describe("Student RPC Implementation", func() {
 
 	var mock sqlmock.Sqlmock
 	var server *internalRPC.StudentRPCServer
@@ -80,7 +80,7 @@ var _ = Describe("Student Repo Implementation", func() {
 					AddRow(777)
 
 				mock.ExpectQuery(query).WillReturnRows(rows)
-				// mock.ExpectCommit()
+				mock.ExpectCommit()
 
 				student, err := server.Create(context.TODO(), &pkgRPC.StudentParam{Name: "Mama Ishar", Gender: "F"})
 				Expect(err).ShouldNot(HaveOccurred())

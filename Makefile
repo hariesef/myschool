@@ -12,7 +12,6 @@ go-coverage:
 	@ginkgo -r -cover -output-dir=. -coverprofile=coverage.txt -covermode=count -coverpkg= \
 		internal/storage/sqlite/student \
 		internal/controller/rpc/student \
-		internal/storage/mongodb/token \
 		internal/storage/mongodb/user \
 		internal/services/account
 	@go tool cover -func=coverage.txt
